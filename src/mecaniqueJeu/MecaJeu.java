@@ -34,6 +34,15 @@ public class MecaJeu {
 		afficherCode(essai, "Essai");
 
 		resultat = analyserEssai(size, codeSecret, essai);
+		afficherResultat(resultat);
+	}
+
+	/**
+	 * @param resultat
+	 */
+	private static void afficherResultat(int[] result) {
+		System.out.println("Bien placé = " + result[0] + " / Mal placé = " + result[1]);
+
 	}
 
 	/**
@@ -42,9 +51,47 @@ public class MecaJeu {
 	 * @param codeEssai
 	 * @return int[] ... [0] = bien place / [1] = mal place
 	 */
-	private static int[] analyserEssai(int size, int[] codeSecret, int[] codeEssai) {
+	private static int[] analyserEssai(int taille, int[] codeSecret, int[] codeEssai) {
+		int[] result = { 0, 0 };
 
-		return null;
+		int bienPlace = 0;
+		int malPlace = 0;
+
+		int[] secretDejaVerifie = new int[taille]; // = 1 si pris en compte, = 0 sinon
+		int[] essaiDejaVerifie = new int[taille]; // = 1 si pris en compte, = 0 sinon
+
+		// elements BIEN PLACES
+		for (int i = 0; i < taille; i++) {
+			if (codeSecret[i] == codeEssai[i]) {
+				bienPlace++;
+				secretDejaVerifie[i] = 1;
+				essaiDejaVerifie[i] = 1;
+			} else {
+				secretDejaVerifie[i] = 0;
+				essaiDejaVerifie[i] = 0;
+			}
+		}
+
+		// elements MAL PLACES
+		// uniquement pour les non pris en compte (dejaVerifie = 0)
+		for (int i = 0; i < taille; i++) {
+			if (secretDejaVerifie[i] == 0) {
+				for (int j = 0; j < taille; j++) {
+					if (i != j) { // si i=j  et meme couleur => BIEN PLACE
+						if (essaiDejaVerifie[j] == 0 && codeSecret[i] == codeEssai[j]) {
+							malPlace++;
+							secretDejaVerifie[i] = 1;
+							essaiDejaVerifie[j] = 1;
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		result[0] = bienPlace;
+		result[1] = malPlace;
+		return result;
 	}
 
 	/**
