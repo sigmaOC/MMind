@@ -20,8 +20,11 @@ public class MecaJeu {
 	public static void main(String[] args) {
 
 		// variables
-		int size = 4;
-		int color = 6;
+		int size = 4; // taille du code
+		int color = 6; // nbre couleurs possibles
+		int count = 0; // compteur essai
+		int countMax = 10; // nbre essais max
+		boolean win = false; // gagne?
 
 		int[] codeSecret = new int[size];
 		int[] essai = new int[size];
@@ -30,11 +33,26 @@ public class MecaJeu {
 		codeSecret = tirageCode(size, color, true);
 		afficherCode(codeSecret, "CodeSecret");
 
-		essai = demanderEssai(size);
-		afficherCode(essai, "Essai");
+		while (!win && count < countMax) {
+			count++;
+			System.out.println("Essai no " + count);
+			essai = demanderEssai(size);
+			afficherCode(essai, "Essai");
+			resultat = analyserEssai(size, codeSecret, essai);
+			afficherResultat(resultat);
 
-		resultat = analyserEssai(size, codeSecret, essai);
-		afficherResultat(resultat);
+			if (resultat[0] == size) {
+				win = true;
+			}
+		}
+		System.out.println("--------------------------");
+		if (win) {
+			System.out.println(" GAGNE en " + count + " essais !!!");
+		} else {
+			System.out.println("PERDU !!!");
+			afficherCode(codeSecret, "La solution était : ");
+		}
+
 	}
 
 	/**
