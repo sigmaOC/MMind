@@ -14,9 +14,6 @@ public class MecaJeu {
 
 	public static Scanner scanner = new Scanner(System.in);
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 
 		// variables
