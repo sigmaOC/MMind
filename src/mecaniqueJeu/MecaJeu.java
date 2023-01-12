@@ -6,10 +6,6 @@ package mecaniqueJeu;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- * @author steph
- *
- */
 public class MecaJeu {
 
 	public static Scanner scanner = new Scanner(System.in);
